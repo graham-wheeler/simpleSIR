@@ -36,7 +36,7 @@ genuine_users <- 0.9*n_users # Est. number that are not bots capable of tweeting
 initial_infected <- 100 # Initial number of accounts that will start the challenge
 init <- c(S = 1-(initial_infected/genuine_users), I = initial_infected/genuine_users, 0.0)
 
-r0 <- 3 # Assumed Reproduction Ratio (Average number of users that one person will infect)
+r0 <- 2 # Assumed Reproduction Ratio (Average number of users that one person will infect)
 duration <- 7 # Duration of infection (days)
 parameters <- c(beta = r0/duration, gamma = 1/duration)
 
@@ -44,7 +44,7 @@ parameters <- c(beta = r0/duration, gamma = 1/duration)
 # Model the epidemic #
 ######################
 
-times <- seq(0, 150, by = 1)
+times <- seq(0, 180, by = 1)
 out <- as.data.frame(ode(y = init, times = times, func = sir, parms = parameters))
 out$time <- NULL
 
@@ -54,7 +54,8 @@ out$time <- NULL
 
 subtitle_text<-ifelse(initial_infected == 1, paste0("R0 = ",r0,"; Duration of infection = ", duration," days; Assumed non-bot Twitter population = ", format(genuine_users, scientific = FALSE), " users; ", initial_infected," user starts the challenge"),
                       paste0("R0 = ",r0,"; Duration of infection = ", duration," days; Assumed non-bot Twitter population = ", format(genuine_users, scientific = FALSE), " users; ", initial_infected," users start the challenge"))
-matplot(times, out, type = "l", xlab = "Time (days)", ylab = "Proportion of population in each state", main = "SIR Model - 7 Day Photo Challenge", lwd = 5, lty = 1:3, bty = "l", col = c("orange", "red", "blue"), las = 1)
+matplot(times, out, type = "l", xlab = "Time (days)", ylab = "Proportion of population in each state", main = "SIR Model - 7 Day Photo Challenge", lwd = 5, lty = 1:3, bty = "l", col = c("orange", "red", "blue"), las = 1, xaxt="n")
+axis(side = 1, at = seq(0, max(times), by = 30), label = as.character(seq(0, max(times), by = 30)))
 mtext(text = subtitle_text, side = 3, line = 0)
 legend(max(times), 0.5, xjust = 1, c("Susceptible", "Infectious", "Recovered"), pch = NULL, lty = 1:3, lwd = 5, col = c("orange", "red", "blue"), cex = 1.5)
 
