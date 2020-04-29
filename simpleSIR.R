@@ -63,7 +63,7 @@ legend(max(times), 0.5, xjust = 1, c("Susceptible", "Infectious", "Recovered"), 
 # Looking at several different values of R0 #
 #############################################
 
-r0_vec <- c(1.9, 2, 3, 4, 5, 6, 7)
+r0_vec <- c(2, 3, 4, 5, 6, 7)
 duration <- 7
 parameters <- matrix(c(beta = r0_vec/duration, gamma = rep(1/duration, length(r0_vec))), ncol = 2, byrow = F)
 colnames(parameters)<-c("beta", "gamma")
